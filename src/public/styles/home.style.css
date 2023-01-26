@@ -1,0 +1,19 @@
+h2{
+    text-transform: capitalize;
+    margin-bottom: 40px;
+}
+
+h3{
+    margin-bottom: 30px;   
+}
+.f-table{
+    margin-bottom: 25px;
+}
+.eliminar{
+    cursor: pointer;
+}
+
+.f-table th{ 
+    background-color: #000;
+    color: #f2e7c3;
+}

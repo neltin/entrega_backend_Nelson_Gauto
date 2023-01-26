@@ -1,0 +1,38 @@
+<div class="container realtimeproducts">     
+    <h2>realTimeProducts</h2>
+<div class="col-12 f-table">   
+<table class="table table-warning">
+        <thead>
+            <tr>
+                <th>Codigo</th>
+                <th>Titulo</th>
+                <th>Descripcion</th>
+                <th>Categoria</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Estado</th>
+                <th>Eliminar</th>                
+            </tr>
+        </thead>
+        <tbody id="table_body">
+        </tbody>
+    </table> 
+</div> 
+<div id="msj"></div>
+
+
+    <form action="/realtimeproducts" method="POST" enctype="multipart/form-data" id="form_product">
+        <h3>Ingresar datos del productos:</h3>
+        <input type="text" id="code" name="code" placeholder="Codigo producto">
+        <input type="text" id="title" name="title" placeholder="Titulo">
+        <input type="text" id="description" name="description" placeholder="Descripcion">
+        <input type="text" id="category" name="category" placeholder="Categoria">
+        <input type="number" id="price" name="price" placeholder="Precio">
+        <input type="number" id="stock" name="stock" placeholder="Stock">
+
+        <input type="submit" value="Cargar datos">
+    </form>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/realTimeProducts.js"></script>

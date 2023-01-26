@@ -1,0 +1,87 @@
+[
+	{
+		"id": 1,
+		"title": "Zapatillas Nike Court Vision Lo Be",
+		"description": "Sin descripcion",
+		"price": 29999,
+		"thumbnails": [
+			"/img/Court_Vision.jpg"
+		],
+		"code": "zn001",
+		"category": "Calzados",
+		"status": true,
+		"stock": 10
+	},
+	{
+		"id": 2,
+		"title": "Zapatillas Topper Duncan Ripstop",
+		"description": "Para vos que tenes un estilo urbano y ganas de recorrer el mundo, las Zapatillas Topper Duncan Ripstop son ideales; te sentirás más seguro en cualquier lugar, su diseño sin cordones las vuelve fáciles de poner y quitar, dándote un look mas relajado y sport. Su suela de goma te brinda una mejor amortiguación y tracción en cada pisada.",
+		"price": 11099,
+		"thumbnails": [
+			"/img/Duncan_Ripstop.jpg"
+		],
+		"code": "zt001",
+		"category": "Calzados",
+		"status": true,
+		"stock": 15
+	},
+	{
+		"id": 3,
+		"title": "Zapatillas Nike Revolution 6 Next Nature",
+		"description": "Suma más y más kilómetros con tus Zapatillas Nike Revolution 6 Next Nature, que aportan amortiguación y confort a cada paso que des. Su capellada transpirable y suela diseñada por computadora para una mejor tracción son ideales hasta para los corredores más exigentes.",
+		"price": 28299,
+		"thumbnails": [
+			"/img/Revolution_6.jpg"
+		],
+		"code": "zn002",
+		"category": "Calzados",
+		"status": true,
+		"stock": 6
+	},
+	{
+		"id": 4,
+		"title": "Zapatillas Puma Softride Enzo Evolve",
+		"description": "Las Zapatillas Puma Softride Enzo Evolve son el resultado de combinar las franquicias más innovadoras de PUMA: Softride y Enzo. Unas zapatillas que llevan la amortiguación al extremo, son increíblemente cómodas durante todo el día y tienen un exterior con un diseño vanguardista con una llamativa marca PUMA. Estas son las zapatillas para vos, ya sea que quieras destacar entre la multitud o dejar atrás a tu adversario.",
+		"price": 26000,
+		"thumbnails": [
+			"/img/Softride_Enzo.jpg"
+		],
+		"code": "zp001",
+		"category": "Calzados",
+		"status": true,
+		"stock": 15
+	},
+	{
+		"id": 5,
+		"title": "Camiseta adidas AFA Titular",
+		"description": "Porque este año no podés dejar de tener la Camiseta adidas Afa, para alentar llevar con vos los colores de tu selección. Está diseñada para que portes tu pasión con toda la comodidad que esperás ya que su corte relajado te permite moverte fácilmente donde vayas. Además cuenta con tecnología AEROREADY para absorber la transpiración y se combina con sus paneles de malla laterales para mantenerte seco y fresco en todo momento. El detalle de la bandera nacional debajo del cuello en la parte de atrás, le da el toque final. Unite a la hinchada con esta increible prenda. ",
+		"price": 18699,
+		"thumbnails": [
+			"/img/Camiseta_AFA_Titular.jpg"
+		],
+		"code": "ca001",
+		"category": "indumentaria",
+		"status": true,
+		"stock": 50
+	},
+	{
+		"id": 6,
+		"code": "bdfb",
+		"title": "bdfb",
+		"description": "dfdfb",
+		"category": "dfbdf",
+		"price": "333",
+		"stock": "3123",
+		"status": true
+	},
+	{
+		"id": 7,
+		"code": "kyukyu",
+		"title": "kyuk",
+		"description": "yukyu",
+		"category": "kyuk",
+		"price": "32123",
+		"stock": "13",
+		"status": true
+	}
+]
