@@ -1,14 +1,20 @@
-//import mongoose from "mongoose";
 const mongoose = require("mongoose");
+const { productsCollection } = require("./products.models");
+
 const cartsCollection = "carts";
 
 const cartsSchema = new mongoose.Schema({
     products:{
         type: [{
-            id: Number,
-            quantity: Number
+            id:{
+                type: mongoose.Schema.Types.ObjectId,
+                ref: productsCollection
+            },
+            quantity: {
+                type: Number
+            }
         }],
-        required:true
+        default: []
     }
 });
 

@@ -1,14 +1,20 @@
 const { ProductsModel } =  require("../models/products.models.js");
 
-class ProductManager {  
-    static contId = 0;
-
+class ProductManager {
     async getProducts() {
         try{               
             const listProduct = await ProductsModel.find();
-            return{        
-                status: "success",
-                data: listProduct
+
+            if(listProduct.length > 0 ){
+                return{        
+                    status: "success",
+                    data: listProduct
+                }
+            }else{
+                return {
+                    status: "error",
+                    error:`No hay productos disponibles.`
+                };
             }
         }
 
@@ -113,20 +119,20 @@ class ProductManager {
             if(!listProduct){
                 return {
                     status: "error",
-                    error:`Hubo un error => El producto con el ID: ${id} no existe o no se encuentra disponible.` 
+                    error:`Hubo un error => El carrito con el ID: ${id} no existe o no se encuentra disponible.` 
                 };                
 
             }else{      
                 return {
                     status: "success",
-                    data:`El producto con el ID: ${id} fue eliminado exitosasmente` 
+                    data:`El carrito con el ID: ${id} fue eliminado exitosasmente` 
                 };
             }
         }
         catch(error){
             return {
                 status: "error",
-                error:`Hubo un error al eliminar el producto: error => ${error.message}` 
+                error:`Hubo un error al eliminar el carrito: error => ${error.message}` 
             };
         }           
     }
