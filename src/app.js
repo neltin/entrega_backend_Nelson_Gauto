@@ -1,6 +1,6 @@
 const express = require('express');
 const { Server } = require('socket.io');
-const { io } = require('./config/socket');
+const { io } = require('./socket');
 require("./config/dbMoongose.js");
 
 

@@ -19,7 +19,7 @@ socket.on("getProducts", (data)=>{
             <td>$${p.price}</td>
             <td>${p.stock}</td>
             <td>${p.status ? "Habilitado": "Inhabilitado"}</td>
-            <td><a href="#" class="eliminar" data-id="${p.id}">Eliminar</a></td>`;
+            <td><a href="#" class="eliminar" data-id="${p._id}">Eliminar</a></td>`;
 
             tr.innerHTML += td;
             
