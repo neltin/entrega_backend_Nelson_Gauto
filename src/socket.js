@@ -5,8 +5,11 @@
 const  ProductManager  = require("./dao/mongoManagers/ProductManager");
 const p = new ProductManager();
 
+const  MenssagesManager  = require("./dao/mongoManagers/MenssagesManager");
+const menssages = new MenssagesManager();
+
 const io = (socketServer) =>{
-    
+    //const messages = [];   
     socketServer.on("connection", async (socket) =>{
         console.log("Cliente conectado")
 
@@ -14,7 +17,7 @@ const io = (socketServer) =>{
         const getP = async() =>{
             const product = await p.getProducts();
             
-            if(product){
+            if(product.data){
                 const data = [...product.data]
                 socketServer.emit("getProducts", data);
 
@@ -54,6 +57,47 @@ const io = (socketServer) =>{
                 }
             }
         });
+
+        /*Socket Chat */
+        socket.on("message", (data)=>{
+            console.log("evento message:", data);
+
+        });
+
+
+        const getChats = async() =>{
+            const msj =  await menssages.getMessages();
+
+            if(msj.data){
+                const data = msj.data
+                socket.emit('msj-chat', data);
+            }
+        }
+
+        //chat
+        socket.on('login', (user) => {
+            //Cuando se conecta un nuevo usuario entregamos todos los mensajes
+
+            getChats();            
+            //Si se conecta le da la bienvenida
+            socket.emit('welcome', user);
+
+            //Nuevo usuario conectado
+            socket.broadcast.emit('new-user', user);
+        });
+
+        socket.on('msj', async (data) => {
+            const msj =  await menssages.addMessages(data);
+
+            console.log(msj)
+
+            if(msj.data){
+                const data = [msj.data]
+                socket.emit('msj-chat', data);
+            }           
+
+            getChats();
+        })
     })
 }
 
