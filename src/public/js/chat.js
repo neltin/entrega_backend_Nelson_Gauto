@@ -13,11 +13,11 @@ const Name = document.getElementById("name");
 
 //Login
  Swal.fire({
-    title: 'ingrese su usuario',
+    title: 'Ingrese su correo electronico',
     input: 'text',
     inputValidator: (value)=>{
       if(!value){
-        return "Debe ingresar su nombre usuario";
+        return "Ingrese su correo electronico para loguearce al chat.";
       }
     },
     allowOutsideClick: false, //bloquea salir del modal con click
