@@ -13,19 +13,42 @@ router.get('/', async (req, res) =>{
     //Query limit
     const { limit } = req.query;
 
-    if(limit > 0){
-        let listProduct =  product.data.slice(0, limit);
+    if(product.status == "success"){    
 
-        return res.status(220).json({
-            status: "success",
-            data: listProduct
-        })
 
+        if(limit > 0){
+            let listProduct =  product.data.slice(0, limit);
+
+            const pString = JSON.stringify(listProduct, null, '\t');
+
+            const data =  {
+                status: true,
+                style:"/styles/home.style.css",
+                title: "Products",
+                product:  JSON.parse(pString) 
+            }
+            // return res.status(404).json({
+            //     pString
+            // })    
+           res.status(220).render('home', data);
+
+        }else{
+            const pString = JSON.stringify(product.data, null, '\t');
+
+            const data =  {
+                status: true,
+                style:"/styles/home.style.css",
+                title: "Products",
+                product:  JSON.parse(pString) 
+            }
+    
+            res.status(220).render('home', data);         
+        }
     }else{
-        return res.status(220).json({
-            status: "success",
-            data: product.data
-        })           
+        return res.status(404).render('home', {
+            status: false,
+            data: "No hay productos"
+        })
     }
 })
 

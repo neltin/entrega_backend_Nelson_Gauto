@@ -3,8 +3,8 @@ const {Uploader} = require('../../middleware/multer.middleware');
 
 const router = Router();
 
-const ProductManager = require('../../dao/fileManagers/ProductManager');
-const productos = new ProductManager('./src/file/dataProducts.json');
+const  ProductManager  = require("../../dao/mongoManagers/ProductManager");
+const productos = new ProductManager();
 
 router.get('/', async (req, res) =>{
     //Traer todos los productos
@@ -14,17 +14,17 @@ router.get('/', async (req, res) =>{
     const { limit } = req.query;
 
     if(limit > 0){
-        let listProduct =  product.slice(0, limit);
+        let listProduct =  product.data.slice(0, limit);
 
         return res.status(220).json({
             status: "success",
             data: listProduct
         })
 
-    }else{  
+    }else{
         return res.status(220).json({
             status: "success",
-            data: product
+            data: product.data
         })           
     }
 })
@@ -32,7 +32,7 @@ router.get('/', async (req, res) =>{
 router.get('/:pid', async (req, res) =>{
     //Parametro id
     const { pid } = req.params;    
-    const product =  await productos.getProductsById(Number(pid));
+    const product =  await productos.getProductsById(pid);
 
     if(product.status == 'error'){
         return res.status(404).json({
@@ -73,11 +73,13 @@ router.post('/', Uploader.array('thumbnails') ,  async (req, res) => {
     }
 })
 
-router.put('/:pid' , async (req, res) => {
+router.put('/:pid' , Uploader.array('thumbnails') , async (req, res) => {
     //Parametro id
-    const { pid } = req.params; 
- 
-    const product =  await productos.updateProduct( Number(pid) , req.body);
+    const { pid } = req.params;
+    let thumbnails = req.files ? (req.files.map(file => `/img/${file.originalname}`)) : [];      
+    console.log(req.body);
+
+    const product =  await productos.updateProduct( pid , {...req.body, thumbnails: thumbnails});
     
     if(product.status == 'error'){
         return res.status(404).json({
@@ -96,7 +98,7 @@ router.delete('/:pid' , async (req, res) => {
     //Parametro id
     const { pid } = req.params; 
 
-    const product =  await productos.deleteProduct(Number(pid));
+    const product =  await productos.deleteProduct(pid);
     
     if(product.status == 'error'){
         return res.status(404).json({

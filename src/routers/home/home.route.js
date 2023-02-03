@@ -13,14 +13,12 @@ router.get('/', async (req, res )=>{
     //Traer todos los productos
     const product =  await productos.getProducts();
 
-    const pString = JSON.stringify(product.data, null, '\t');
-
-    if(product.status == "success"){
+    if(product.length > 0){
         const data =  {
             status: true,
             style:"/styles/home.style.css",
             title: "Home",
-            product:  JSON.parse(pString) 
+            product: product
         }
 
         res.status(220).render('home', data);

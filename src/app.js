@@ -4,9 +4,8 @@ const { io } = require('./socket');
 require("./config/dbMoongose.js");
 
 
-//const AppRouters = require('./routers/app.routers');
+const AppRouters = require('./routers/app.routers');
 const ViewsRouters = require('./routers/views.routers');
-const BdRouters = require('./routers/bd.routers');
 
 const PORT = 8080;
 //Inicializacion
@@ -25,8 +24,8 @@ app.use(express.urlencoded({ extended: true })); //Parseo de los formularios
 
 //Router
 app.use(ViewsRouters);
-//app.use( '/api', AppRouters);
-app.use( '/api', BdRouters);
+app.use( '/api', AppRouters);
+
 
 //Incorporar archivos de carpeta public con express
 app.use(express.static(__dirname + '/public'));

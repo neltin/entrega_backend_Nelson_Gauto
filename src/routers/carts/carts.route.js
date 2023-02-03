@@ -1,8 +1,8 @@
 const {Router} = require('express');
 const router = Router();
 
-const CartManager = require('../../dao/fileManagers/CartManager');
-const carrito = new CartManager('./src/file/dataProducts.json', './src/file/dataCarts.json');
+const  CartManager  = require("../../dao/mongoManagers/CartManager");
+const carrito = new CartManager();
 
 router.get('/', async (req, res) =>{
     //Traer todos los productos
@@ -17,6 +17,24 @@ router.get('/', async (req, res) =>{
         ...cart
     })
 })
+
+router.get('/:cid', async (req, res) =>{
+    //Parametro id
+    const { cid } = req.params;  
+
+    const cart =  await carrito.getCartsById(cid);
+
+    if(cart.status == 'error'){
+        return res.status(404).json({
+            ...cart
+        })
+    }
+
+    return res.status(220).json({
+        ...cart
+    })     
+})
+
 
 router.post('/' , async (req, res) => {
     
@@ -33,10 +51,11 @@ router.post('/' , async (req, res) => {
 
 })
 
-router.post('/:cid/product/:pid' , async (req, res) => {
+router.put('/:cid/product/:pid' , async (req, res) => {
     const {cid, pid} = req.params;
 
     const cart =  await carrito.addProductCart(cid, pid);
+
 
     if(cart.status == 'error'){
         return res.status(404).json({
@@ -48,5 +67,23 @@ router.post('/:cid/product/:pid' , async (req, res) => {
         ...cart
     })
  })
+
+ router.delete('/:cid' , async (req, res) => {
+    //Parametro id
+    const { cid } = req.params; 
+
+    const cart =  await carrito.deleteCart(cid);
+    
+    if(cart.status == 'error'){
+        return res.status(404).json({
+            ...cart
+        })
+    }
+
+    return res.status(220).json({
+        ...cart
+    }) 
+
+})
 
 module.exports = router;

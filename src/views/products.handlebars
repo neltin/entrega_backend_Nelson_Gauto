@@ -1,0 +1,36 @@
+<div class="container products">
+    <h2>Products</h2>
+    <h3>Lista de producto</h3>
+    {{#if status}}
+<div class="col-12 f-table">      
+    <table class="table table-warning">
+        <thead>
+            <tr>
+                <th>Codigo</th>
+                <th>Titulo</th>
+                <th>Descripcion</th>
+                <th>Categoria</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+                {{#each product}}
+                <tr>
+                    <td>{{ code }}</td>
+                    <td>{{ title }}</td>
+                    <td>{{ description }}</td>
+                    <td>{{ category }}</td>
+                    <td>${{ price }}</td>
+                    <td>{{ stock }}</td>
+                    <td>{{#if status }} Habilitado {{else}} Inhabilitado {{/if}}</td>
+                </tr>
+                {{/each}}
+        </tbody>
+    </table>
+</div>    
+    {{else}}
+        <p>{{ data }}</p>
+    {{/if}}
+</div>
