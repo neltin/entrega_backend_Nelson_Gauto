@@ -44,7 +44,7 @@ class CartManager extends ProductManager {
         }        
     }
 
-    //Agregar productos a carrito
+    //Trae un carrito
     async getCartsById(id){
         try{ 
             const cart = await cartsModel.findById(id);
@@ -68,7 +68,7 @@ class CartManager extends ProductManager {
         }           
     }
 
-
+    //Agrega un producto al carrito
     async addProductCart(cid, pid){
         try{
             const product = await this.getProductsById(pid);
@@ -113,6 +113,50 @@ class CartManager extends ProductManager {
         }
     }
 
+    async deleteCartProducts(cid, pid){
+        try{
+            const product = await this.getProductsById(pid);
+            const cart = await this.getCartsById(cid);
+
+            
+            if(product.status == "success" && cart.status == "success"){
+                const listProduct = cart.data.products;
+                const existsP = listProduct.find(p => p._id == pid);
+
+                let cUpdate;
+
+                 let updateProduct;
+
+                 if(existsP){
+                    console.log("pid: ", pid)
+
+                    updateProduct = listProduct.filter( (p) => p._id != pid );
+console.log("updateProduct: ", updateProduct)
+                    cUpdate = await cartsModel.findByIdAndUpdate({ _id: cid } , { products: updateProduct })
+
+                }else{ 
+                    // updateProduct = [{ _id: pid , quantity: quantity }];   
+
+                    // cUpdate = await cartsModel.findByIdAndUpdate({ _id: cid } , { $push: {products: updateProduct }})
+                }
+
+                return {        
+                    status: "success",
+                    data: cUpdate
+                }
+
+            }
+        }
+    
+        catch(error){
+            return {
+                status: "error",
+                error:`Hubo un error en addProductCart => ${error.message}` 
+            };
+        }
+    }    
+
+    //Elimina un carrito
     async deleteCart(id){
         try{ 
             const listCart = await cartsModel.findByIdAndDelete(id);
@@ -137,8 +181,6 @@ class CartManager extends ProductManager {
             };
         }           
     }
-    
-
 }
 
 module.exports = CartManager;

@@ -86,4 +86,24 @@ router.put('/:cid/product/:pid' , async (req, res) => {
 
 })
 
+router.delete('/:cid/product/:pid' , async (req, res) => {
+    //Parametro id
+    const { cid } = req.params; 
+    const { pid } = req.params; 
+
+    const cart =  await carrito.deleteCartProducts(cid, pid);
+    
+    if(cart.status == 'error'){
+        return res.status(404).json({
+            ...cart
+        })
+    }
+
+    return res.status(220).json({
+        ...cart
+    }) 
+})
+
+
+
 module.exports = router;
