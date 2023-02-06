@@ -22,7 +22,7 @@ router.get('/:cid', async (req, res) =>{
     //Parametro id
     const { cid } = req.params;  
 
-    const cart =  await carrito.getCartsById(cid);
+    const cart =  await carrito.getCartPopulateById(cid);
 
     if(cart.status == 'error'){
         return res.status(404).json({
@@ -35,7 +35,7 @@ router.get('/:cid', async (req, res) =>{
     })     
 })
 
-
+/** */
 router.post('/' , async (req, res) => {
     
     const cart =  await carrito.newCart();
@@ -51,10 +51,29 @@ router.post('/' , async (req, res) => {
 
 })
 
+router.put('/:cid' , async (req, res) => {
+    const {cid} = req.params;
+    const listProduct = req.body;
+
+    const cart =  await carrito.addListProductCart(cid, listProduct);
+
+    if(cart.status == 'error'){
+        return res.status(404).json({
+            ...cart
+        })
+    }
+
+    return res.status(220).json({
+        ...cart
+    })
+ })
+
+
 router.put('/:cid/product/:pid' , async (req, res) => {
     const {cid, pid} = req.params;
+    const { quantity } = req.body;
 
-    const cart =  await carrito.addProductCart(cid, pid);
+    const cart =  await carrito.addProductCart(cid, pid, quantity);
 
 
     if(cart.status == 'error'){

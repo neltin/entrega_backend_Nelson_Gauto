@@ -48,6 +48,9 @@ class CartManager extends ProductManager {
     async getCartsById(id){
         try{ 
             const cart = await cartsModel.findById(id);
+
+            console.log(cart);
+
             if(!cart){
                 return {
                     status: "error",
@@ -68,8 +71,36 @@ class CartManager extends ProductManager {
         }           
     }
 
+    //Trae un carrito
+    async getCartPopulateById(id){
+        try{ 
+            const cart = await cartsModel.findById(id).populate("products._id");
+
+            console.log(cart);
+
+            if(!cart){
+                return {
+                    status: "error",
+                    error:`Hubo un error => El carrito con el ID: ${id} no existe o no se encuentra disponible.`
+                };
+            }
+
+            return {        
+                status: "success",
+                data: cart
+            }
+        }
+        catch(error){
+            return {
+                status: "error",
+                error:`Hubo un error en getCartsId => ${error.message}`  
+            };
+        }           
+    }
+
+
     //Agrega un producto al carrito
-    async addProductCart(cid, pid){
+    async addProductCart(cid, pid, quantity){
         try{
             const product = await this.getProductsById(pid);
             const cart = await this.getCartsById(cid);
@@ -77,16 +108,16 @@ class CartManager extends ProductManager {
             
             if(product.status == "success" && cart.status == "success"){
                 const listProduct = cart.data.products;
-                const existsP = listProduct.find(p => p._id == pid);
 
+                console.log("listProduct", listProduct)
+                const existsP = listProduct.find(p => p._id == pid);
+                console.log("pid: ", pid)                
+console.log("existe: ", existsP)
                 let cUpdate;
 
-                 let quantity = 1;
                  let updateProduct;
 
                  if(existsP){
-                    quantity = existsP.quantity + 1; 
-
                     updateProduct = listProduct.map( (p) => p._id == pid ?  { _id: pid, quantity: quantity } : p );
 
                      cUpdate = await cartsModel.findByIdAndUpdate({ _id: cid } , { products: updateProduct })
@@ -113,6 +144,46 @@ class CartManager extends ProductManager {
         }
     }
 
+
+    //Agrega lista de productos al carrito
+    async addListProductCart(cid, data){
+        try{
+            const listProduct = await this.getProducts();
+            const cart = await this.getCartsById(cid);
+
+            console.log(cart);
+
+            if(listProduct.status == "success" && cart.status == "success"){
+                /*[
+                    {"_id": "63d2d1190598007545dbcba0", "quantity": 2},
+                    {"_id": "63d2d1190598007545dbcba2", "quantity": 4}
+                ]*/
+
+                const cUpdate = await cartsModel.findByIdAndUpdate({ _id: cid } , { products: data });
+
+                return {        
+                    status: "success",
+                    data: cUpdate
+                }
+            }else{
+                return {        
+                    status: "error",
+                    error: `El carrito con el id: ${cid} no existe o no hay lista de productos cargados.`
+                }
+            }
+        }
+    
+        catch(error){
+            return {
+                status: "error",
+                error:`Hubo un error en addListProductCart => ${error.message}` 
+            };
+        }
+    }
+
+
+
+    //Eliminar producto del carrito
     async deleteCartProducts(cid, pid){
         try{
             const product = await this.getProductsById(pid);
@@ -128,16 +199,14 @@ class CartManager extends ProductManager {
                  let updateProduct;
 
                  if(existsP){
-                    console.log("pid: ", pid)
-
                     updateProduct = listProduct.filter( (p) => p._id != pid );
-console.log("updateProduct: ", updateProduct)
                     cUpdate = await cartsModel.findByIdAndUpdate({ _id: cid } , { products: updateProduct })
 
                 }else{ 
-                    // updateProduct = [{ _id: pid , quantity: quantity }];   
-
-                    // cUpdate = await cartsModel.findByIdAndUpdate({ _id: cid } , { $push: {products: updateProduct }})
+                    return {
+                        status: "error",
+                        error:`El producto no existe` 
+                    };
                 }
 
                 return {        
