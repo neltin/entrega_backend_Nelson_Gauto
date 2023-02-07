@@ -9,27 +9,36 @@ const productos = new ProductManager();
 router.get('/', async (req, res) =>{
     //Traer todos los productos
     let { limit } = req.query;
+    let{ page } = req.query;
 
-    if(!limit){
-        limit = 5;
-    }
+    limit ? limit : limit = 3;
+    page ? page : page = 1;
 
 //    const product =  await productos.getProducts(limit);
-    const product =  await productos.getPaginateProducts(limit);
+    const product =  await productos.getPaginateProducts(limit, page);
     //Query limit
 
     if(product.status == "success"){    
 
     const pString = JSON.stringify(product.data.docs, null, '\t');
 
+    const prevLink = product.data.hasPrevPage?`http://localhost:8080/products?page=${product.data.prevPage}`:'';
+
+    const nextLink = product.data.hasNextPage?`http://localhost:8080/products?page=${product.data.nextPage}`:'';
+
     const data =  {
         status: true,
         style:"/styles/home.style.css",
         title: "Products",
-        product:  JSON.parse(pString) 
+        product:  JSON.parse(pString),
+        hasPrevPage:  product.data.hasPrevPage,
+        prevLink: prevLink,
+        hasNextPage:  product.data.hasNextPage,
+        nextLink: nextLink
+
     }
 
-    res.status(220).render('home', data);         
+    res.status(220).render('products', data);         
         
     }else{
         return res.status(404).render('home', {

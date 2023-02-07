@@ -23,9 +23,9 @@ class ProductManager {
         }        
     }
  
-    async getPaginateProducts(limit) {
+    async getPaginateProducts(limit, page) {
         try{               
-            const listProduct = await ProductsModel.paginate({}, {limit: limit, page: 1});
+            const listProduct = await ProductsModel.paginate({}, {limit: limit, page: page});
             console.log(listProduct)
 
 
