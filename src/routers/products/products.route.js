@@ -7,26 +7,16 @@ const  ProductManager  = require("../../dao/mongoManagers/ProductManager");
 const productos = new ProductManager();
 
 router.get('/', async (req, res) =>{
-    //Traer todos los productos
-    const product =  await productos.getProducts();
-
     //Query limit
     const { limit } = req.query;
 
-    if(limit > 0){
-        let listProduct =  product.data.slice(0, limit);
+    //Traer todos los productos
+    const product =  await productos.getPaginateProducts(limit);
 
-        return res.status(220).json({
-            status: "success",
-            data: listProduct
-        })
-
-    }else{
-        return res.status(220).json({
-            status: "success",
-            data: product.data
-        })           
-    }
+    return res.status(220).json({
+        status: "success",
+        data: product.data
+    })           
 })
 
 router.get('/:pid', async (req, res) =>{

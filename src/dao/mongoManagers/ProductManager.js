@@ -22,7 +22,33 @@ class ProductManager {
             throw new Error(`Hubo un error en getProducts => ${error.message}`);
         }        
     }
-  
+ 
+    async getPaginateProducts(limit) {
+        try{               
+            const listProduct = await ProductsModel.paginate({}, {limit: limit, page: 1});
+            console.log(listProduct)
+
+
+            if(listProduct){
+                return{        
+                    status: "success",
+                    data: listProduct
+                }
+            }else{
+                return {
+                    status: "error",
+                    error:`No hay productos disponibles.`
+                };
+            }
+        }
+
+        catch(error) {
+            throw new Error(`Hubo un error en getProducts => ${error.message}`);
+        }        
+    }    
+
+
+
     async addProduct(producto){
         try{
             if(!producto.id){ 
