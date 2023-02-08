@@ -10,21 +10,34 @@ router.get('/', async (req, res) =>{
     //Traer todos los productos
     let { limit } = req.query;
     let{ page } = req.query;
+    let{ sort } = req.query;
 
     limit ? limit : limit = 3;
     page ? page : page = 1;
+    sort ? sort : sort = 1;
 
-//    const product =  await productos.getProducts(limit);
-    const product =  await productos.getPaginateProducts(limit, page);
+    //const product =  await productos.getProducts(limit);
+    const product =  await productos.getPaginateProducts(limit, page, sort);
     //Query limit
 
-    if(product.status == "success"){    
+    if(product.status == "success"){ 
+
+    let sortP = "";
+    if(sort == 1){
+        sortP = `&sort=-1`;
+    }else if(sort == -1){
+        sortP = `&sort=1`;
+    }
 
     const pString = JSON.stringify(product.data.docs, null, '\t');
 
     const prevLink = product.data.hasPrevPage?`http://localhost:8080/products?page=${product.data.prevPage}`:'';
 
     const nextLink = product.data.hasNextPage?`http://localhost:8080/products?page=${product.data.nextPage}`:'';
+
+
+    const sortPrice = `http://localhost:8080/products?page=${product.data.page}${sortP}`;
+
 
     const data =  {
         status: true,
@@ -34,8 +47,8 @@ router.get('/', async (req, res) =>{
         hasPrevPage:  product.data.hasPrevPage,
         prevLink: prevLink,
         hasNextPage:  product.data.hasNextPage,
-        nextLink: nextLink
-
+        nextLink: nextLink,
+        sortPrice: sortPrice
     }
 
     res.status(220).render('products', data);         
