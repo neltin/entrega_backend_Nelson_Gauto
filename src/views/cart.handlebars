@@ -1,0 +1,48 @@
+<div class="container carts">
+    <h2>Carrito {{id}}</h2>
+{{#if status}}
+<div class="col-12 f-table">  
+    <table class="table table-warning">
+        <thead>
+            <tr>
+                <th>Codigo</th>
+                <th>Titulo</th>
+                <th>Descripcion</th>
+                <th>Categoria</th>
+                <th>Precio</th>
+                <th>Cantidad Pedidos</th>
+            </tr>
+        </thead>
+        <tbody>
+                {{#each products}}
+
+                <tr>
+                    <td>{{ _id.code }}</td>
+                    <td>{{ _id.title }}</td>
+                    <td>{{ _id.description }}</td>
+                    <td>{{ _id.category }}</td>
+                    <td>${{ _id.price }}</td>
+                    <td>{{quantity}}</td>
+                </tr>
+                {{/each}}
+
+        </tbody>
+    </table>
+</div>    
+    {{else}}
+        <p>{{ data }}</p>
+    {{/if}}
+<div class="pagination">
+    {{#if hasPrevPage}}
+        <a href={{this.prevLink}}><< Anterior</a>
+    {{/if}}
+    &nbsp;
+    {{this.page}}
+    &nbsp;
+     {{#if hasNextPage}}
+        <a href={{this.nextLink}}>Siguiente >></a>
+    {{/if}} 
+</div>
+
+
+</div>

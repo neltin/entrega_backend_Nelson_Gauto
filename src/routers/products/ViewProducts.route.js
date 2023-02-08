@@ -9,15 +9,21 @@ const productos = new ProductManager();
 router.get('/', async (req, res) =>{
     //Traer todos los productos
     let { limit } = req.query;
-    let{ page } = req.query;
-    let{ sort } = req.query;
-
+    let { page } = req.query;
+    let { sort } = req.query;
+    let { query } = req.query;
+    
     limit ? limit : limit = 3;
     page ? page : page = 1;
     sort ? sort : sort = 1;
 
+    const filtro = (query) ? 
+                (query == "true" || query == "false") ? {status: query} : {category: query} 
+    : {};
+
+    console.log(filtro);
     //const product =  await productos.getProducts(limit);
-    const product =  await productos.getPaginateProducts(limit, page, sort);
+    const product =  await productos.getPaginateProducts(filtro, limit, page, sort);
     //Query limit
 
     if(product.status == "success"){ 
@@ -109,7 +115,7 @@ router.put('/:pid' , Uploader.array('thumbnails') , async (req, res) => {
     //Parametro id
     const { pid } = req.params;
     let thumbnails = req.files ? (req.files.map(file => `/img/${file.originalname}`)) : [];      
-    console.log(req.body);
+    //console.log(req.body);
 
     const product =  await productos.updateProduct( pid , {...req.body, thumbnails: thumbnails});
     

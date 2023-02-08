@@ -22,17 +22,26 @@ router.get('/:cid', async (req, res) =>{
     //Parametro id
     const { cid } = req.params;  
 
-    const cart =  await carrito.getCartsById(cid);
+    const cart =  await carrito.getCartPopulateById(cid);
 
-    if(cart.status == 'error'){
-        return res.status(404).json({
+    const products = JSON.stringify(cart.data.products, null, '\t');
+
+    if(cart.status == 'success'){
+
+        const data =  {
+            status: true,
+            style:"/styles/home.style.css",
+            title: "Cart",
+            id: cid,
+            products:  JSON.parse(products)
+        }
+    
+        res.status(220).render('cart', data);
+    }else{
+        return res.status(220).json({
             ...cart
-        })
+        })     
     }
-
-    return res.status(220).json({
-        ...cart
-    })     
 })
 
 
